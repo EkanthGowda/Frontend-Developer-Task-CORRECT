@@ -7,19 +7,20 @@ It demonstrates secure authentication, protected routes, dashboard functionality
 ---
 
 ## Tech Stack
-**Frontend**
+
+### Frontend
 - React.js
 - Tailwind CSS
 - Vite
 
-**Backend**
+### Backend
 - Node.js
 - Express.js
 
-**Database**
+### Database
 - MongoDB Atlas
 
-**Authentication & Security**
+### Authentication & Security
 - JWT (JSON Web Tokens)
 - bcrypt for password hashing
 
@@ -40,110 +41,129 @@ It demonstrates secure authentication, protected routes, dashboard functionality
 
 ## How to Run the Project
 
-## Backend
+### Backend
 ```bash
 cd backend
 npm install
 npm run dev
+```
 
-Create a .env file inside backend/:
-
+Create a `.env` file inside `backend/`:
+```env
 PORT=5068
-MONGO_URI=mongodb+srv://admin:Mysore*88@frontend-task-cluster.xdanzia.mongodb.net/?appName=frontend-task-cluster
-JWT_SECRET=supersecretkey
+MONGO_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secret_key
+```
 
-Backend will run at:
-
+Backend runs at:
+```
 http://localhost:5068
+```
 
+---
 
 ### Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
+```
 
-Frontend will run at:
-
+Frontend runs at:
+```
 http://localhost:5173
+```
 
+---
 
+## API Documentation – Frontend Developer Task
 
-# API Documentation – Frontend Developer Task
-
-Base URL:
+### Base URL
+```
 http://localhost:5068/api
+```
 
 All protected routes require:
+```
 Authorization: Bearer <JWT_TOKEN>
+```
 
 ---
 
 ## Authentication APIs
 
 ### Register User
-POST /auth/register
+**POST** `/auth/register`
 
-Request Body:
+```json
 {
   "name": "John Doe",
   "email": "john@example.com",
   "password": "123456"
 }
+```
 
 Response:
-201 Created
+```json
 {
   "message": "Registered successfully"
 }
+```
 
 ---
 
 ### Login User
-POST /auth/login
+**POST** `/auth/login`
 
-Request Body:
+```json
 {
   "email": "john@example.com",
   "password": "123456"
 }
+```
 
 Response:
-200 OK
+```json
 {
   "token": "JWT_TOKEN"
 }
+```
 
 ---
 
-## User APIs
+## User APIs (Protected)
 
-### Get User Profile (Protected)
-GET /user/profile
+### Get User Profile
+**GET** `/user/profile`
 
-Headers:
+Header:
+```
 Authorization: Bearer <JWT_TOKEN>
+```
 
 Response:
-200 OK
+```json
 {
   "_id": "userId",
   "name": "John Doe",
   "email": "john@example.com"
 }
+```
 
 ---
 
 ## Task APIs (Protected)
 
 ### Get All Tasks
-GET /tasks
+**GET** `/tasks`
 
-Optional Query Params:
+Optional query:
+```
 search=<task_title>
+```
 
 Response:
-200 OK
+```json
 [
   {
     "_id": "taskId",
@@ -151,69 +171,78 @@ Response:
     "status": "pending"
   }
 ]
+```
 
 ---
 
 ### Create Task
-POST /tasks
+**POST** `/tasks`
 
-Request Body:
+```json
 {
   "title": "Build Dashboard"
 }
+```
 
 Response:
-201 Created
+```json
 {
   "_id": "taskId",
   "title": "Build Dashboard"
 }
+```
 
 ---
 
 ### Delete Task
-DELETE /tasks/:id
+**DELETE** `/tasks/:id`
 
 Response:
-200 OK
+```json
 {
   "message": "Task deleted"
 }
+```
 
 ---
 
 ## Error Responses
+- 401 Unauthorized – Invalid or missing JWT
+- 400 Bad Request – Missing required fields
+- 500 Internal Server Error – Unexpected error
 
-401 Unauthorized – Invalid or missing JWT  
-400 Bad Request – Missing required fields  
-500 Server Error – Unexpected error
+---
 
+## Note on Scaling Frontend–Backend Integration for Production
 
+In production, the frontend–backend integration would be scaled with a focus on security, performance, reliability, and maintainability.
 
-Note on Scaling Frontend–Backend Integration for Production
-In a production environment, the frontend–backend integration would be scaled with a focus on security, performance, reliability, and maintainability.
+### Authentication & Security
+- Store JWTs in HTTP-only secure cookies
+- Use short-lived access tokens with refresh tokens
+- Enforce HTTPS, strict CORS policies, and rate limiting
 
-Authentication & Security
-Store JWTs in HTTP-only, Secure cookies instead of localStorage to prevent XSS attacks.
-Use short-lived access tokens with refresh tokens.
-Enforce HTTPS, strict CORS policies, and API rate limiting.
+### Frontend Scalability
+- Use Next.js for SSR/SSG
+- Implement code splitting and lazy loading
+- Deploy on CDN-backed platforms like Vercel or Netlify
 
-Frontend Scalability
-Migrate to Next.js for Server-Side Rendering (SSR) or Static Site Generation (SSG) to improve SEO and performance.
-Implement code splitting and lazy loading to reduce initial bundle size.
-Deploy frontend on CDN-backed platforms like Vercel or Netlify.
+### Backend Scalability
+- Containerize services using Docker
+- Deploy behind a load balancer and scale horizontally
+- Use Redis for caching frequently accessed data
 
-Backend Scalability
-Containerize backend services using Docker.
-Deploy behind a load balancer and scale horizontally.
-Introduce Redis caching for frequently accessed data such as user profiles and task lists.
+### Database & API
+- Use MongoDB Atlas auto-scaling and indexing
+- Version APIs (e.g., /api/v1)
+- Standardize error handling and responses
 
-Database & API
-Use MongoDB Atlas auto-scaling, indexing, and replica sets.
-Version APIs (e.g., /api/v1) for backward compatibility.
-Standardize error handling and response formats.
+### CI/CD & Reliability
+- Set up CI/CD pipelines
+- Add logging, monitoring, and alerts
+- Use separate dev, staging, and production environments
 
-CI/CD & Reliability
-Implement CI/CD pipelines for automated testing and deployment.
-Add logging, monitoring, and alerting for production stability.
-Use separate environments for development, staging, and production.
+---
+
+## Author
+Koushik Gowda
