@@ -245,4 +245,4 @@ In production, the frontend–backend integration would be scaled with a focus o
 ---
 
 ## Author
-Koushik Gowda
+Ekanth Gowda
